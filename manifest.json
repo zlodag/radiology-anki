@@ -1,0 +1,23 @@
+{
+	"name": "Radiopaedia to Anki",
+	"version": "0.1",
+	"description": "Allows quick creation of Anki notes from Radiopaedia",
+	"background": {
+		"scripts": ["background.js"],
+		"persistent": false
+	},
+	"page_action": {
+
+	},
+	"content_scripts": [
+	  {
+	    "matches": ["https://radiopaedia.org/articles/*"],
+	    "js": ["contentScript.js"]
+	  }
+	],
+	"permissions": [
+		"declarativeContent",
+		"http://localhost:8765/"
+	],
+	"manifest_version": 2
+}
