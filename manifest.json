@@ -1,13 +1,10 @@
 {
 	"name": "Radiopaedia to Anki",
 	"version": "0.1",
-	"description": "Allows quick creation of Anki notes from Radiopaedia",
+	"description": "Allows quick creation of Anki notes from Radiopaedia, using AnkiConnect",
 	"background": {
 		"scripts": ["background.js"],
 		"persistent": false
-	},
-	"page_action": {
-
 	},
 	"content_scripts": [
 	  {
@@ -16,7 +13,6 @@
 	  }
 	],
 	"permissions": [
-		"declarativeContent",
 		"http://localhost:8765/"
 	],
 	"manifest_version": 2
