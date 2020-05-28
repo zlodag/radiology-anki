@@ -1,6 +1,15 @@
 'use strict';
 
-chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+const default_field_diagnosis = 'Diagnosis';
+const default_field_link = 'Link';
+const default_field_image = 'Image';
+
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => chrome.storage.sync.get({
+	diagnosis: default_field_diagnosis,
+	link: default_field_link,
+	image: default_field_image,
+}, options => {
+
 	let data;
 	const addCardAction = {
 		action:"guiAddCards",
@@ -9,15 +18,15 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 				deckName: "Personal",
 				modelName: "Trivia",
 				fields: {
-					Diagnosis: message.Diagnosis,
-					Link:'https://radiopaedia.org/articles/' + sender.url.match(/[^/]+$/)[0].split('?')[0],
+					[options.diagnosis]: message.Diagnosis,
+					[options.link]:'https://radiopaedia.org/articles/' + sender.url.match(/[^/]+$/)[0].split('?')[0],
 				}
 			}
 		}
 	};
 	if(message.image_url) {
 		const filename = message.image_url.match(/[^/]+$/)[0];
-		addCardAction.params.note.fields.Images = '<img src="' + filename + '">';
+		addCardAction.params.note.fields[options.image] = '<img src="' + filename + '">';
 		data = {
 			action:"multi",
 			params: {
@@ -46,4 +55,4 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 	xhr.open("POST", "http://localhost:8765", true);
 	xhr.send(JSON.stringify(data));
 	return true;
-});
+}));

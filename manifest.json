@@ -9,11 +9,16 @@
 	"content_scripts": [
 	  {
 	    "matches": ["https://radiopaedia.org/articles/*"],
-	    "js": ["contentScript.js"]
+	    "js": ["contentScriptRadiopaedia.js"]
 	  }
 	],
+	"options_ui": {
+	  "page": "options.html",
+	  "open_in_tab": false
+	},
 	"permissions": [
-		"http://localhost:8765/"
+		"http://localhost:8765/",
+		"storage"
 	],
 	"manifest_version": 2
 }
