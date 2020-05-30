@@ -14,23 +14,22 @@ function sendMessage(msg) {
 	});
 }
 
+function getBaseMessage(){
+	return {
+		diagnosis: header.firstElementChild.innerText,
+		link: document.URL.split('?')[0],
+	};
+}
+
 const header = document.getElementById("content-header");
-
-header.appendChild(createButton(() => {
-	sendMessage({
-		"Diagnosis": header.firstElementChild.innerText,
-	});
-}));
-
+header.appendChild(createButton(() => sendMessage(getBaseMessage())));
 const grid_items = document.getElementsByClassName('image-grid-item');
-
 for (let i = 0; i < grid_items.length; i++) {
 	const grid_item = grid_items[i];
 	grid_item.appendChild(createButton(() => {
-		const url = grid_item.firstElementChild.firstElementChild.dataset.imageGalleryThumbnailPath;
-		sendMessage({
-			"Diagnosis": header.firstElementChild.innerText,
-			"image_url": url,
-		});
+		const msg = getBaseMessage();
+		msg.image_url = grid_item.firstElementChild.firstElementChild.dataset.imageGalleryThumbnailPath;
+		msg.filename = msg.image_url.match(/[^/]+$/)[0];
+		sendMessage(msg);
 	}));
 }

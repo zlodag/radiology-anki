@@ -10,6 +10,10 @@
 	  {
 	    "matches": ["https://radiopaedia.org/articles/*"],
 	    "js": ["contentScriptRadiopaedia.js"]
+	  },
+	  {
+	    "matches": ["https://app.radprimer.com/assessment/*"],
+	    "js": ["contentScriptRadPrimer.js"]
 	  }
 	],
 	"options_ui": {

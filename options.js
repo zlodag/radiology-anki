@@ -1,15 +1,20 @@
 'use strict';
 
+const default_field_deck = 'Default';
+const default_field_note = 'Basic';
 const default_field_diagnosis = 'Diagnosis';
 const default_field_link = 'Link';
 const default_field_image = 'Image';
 
-// Saves options to chrome.storage
 function save_options() {
+  var field_deck = document.getElementById('field_deck').value;
+  var field_note = document.getElementById('field_note').value;
   var field_diagnosis = document.getElementById('field_diagnosis').value;
   var field_link = document.getElementById('field_link').value;
   var field_image = document.getElementById('field_image').value;
   chrome.storage.sync.set({
+    deck: field_deck,
+    note: field_note,
     diagnosis: field_diagnosis,
     link: field_link,
     image: field_image,
@@ -24,10 +29,14 @@ function save_options() {
 
 function restore_options() {
   chrome.storage.sync.get({
+    deck: default_field_deck,
+    note: default_field_note,
     diagnosis: default_field_diagnosis,
     link: default_field_link,
     image: default_field_image,
   }, function(items) {
+    document.getElementById('field_deck').value = items.deck;
+    document.getElementById('field_note').value = items.note;
     document.getElementById('field_diagnosis').value = items.diagnosis;
     document.getElementById('field_link').value = items.link;
     document.getElementById('field_image').value = items.image;

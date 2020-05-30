@@ -1,8 +1,23 @@
 <!DOCTYPE html>
 <html>
-<head><title>Anki note field names</title></head>
+<head><title>Options</title></head>
 <body>
 
+<fieldset>
+<legend>Connection options</legend>
+<div>
+  <label for="field_deck">Deck name:</label>
+  <input type="text" id="field_deck"/>
+</div>
+
+<div>
+  <label for="field_note">Note type:</label>
+  <input type="text" id="field_note"/>
+</div>
+</fieldset>
+
+<fieldset>
+<legend>Field names</legend>
 <div>
   <label for="field_diagnosis">Diagnosis:</label>
   <input type="text" id="field_diagnosis"/>
@@ -17,6 +32,7 @@
   <label for="field_image">Image:</label>
   <input type="text" id="field_image"/>
 </div>
+</fieldset>
 
 <div id="status"></div>
 
