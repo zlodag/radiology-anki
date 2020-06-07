@@ -21,7 +21,7 @@ function getBaseMessage(){
 	};
 }
 
-const header = document.getElementById("content-header");
+const header = document.getElementById('content-header');
 header.appendChild(createButton(() => sendMessage(getBaseMessage())));
 const grid_items = document.getElementsByClassName('image-grid-item');
 for (let i = 0; i < grid_items.length; i++) {

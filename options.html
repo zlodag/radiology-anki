@@ -6,6 +6,12 @@
 <fieldset>
 <legend>Connection options</legend>
 <div>
+  <label for="field_host">Host URL:</label>
+  <input type="text" id="field_host"/>
+  <button id="restore_default_host">Restore default</button>
+</div>
+
+<div>
   <label for="field_deck">Deck name:</label>
   <input type="text" id="field_deck"/>
 </div>
@@ -36,7 +42,8 @@
 
 <div id="status"></div>
 
-<button id="save">Save</button>
+<div><button id="save">Save</button></div>
+
 
 <script src="options.js"></script>
 </body>

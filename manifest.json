@@ -1,7 +1,7 @@
 {
-	"name": "Radiopaedia to Anki",
-	"version": "0.1",
-	"description": "Allows quick creation of Anki notes from Radiopaedia, using AnkiConnect",
+	"name": "Radiology to Anki",
+	"version": "1.0",
+	"description": "Import radiology content to Anki flashcards using AnkiConnect",
 	"background": {
 		"scripts": ["background.js"],
 		"persistent": false
@@ -23,6 +23,9 @@
 	"permissions": [
 		"http://localhost:8765/",
 		"storage"
+	],
+	"optional_permissions": [
+		"http://*/"
 	],
 	"manifest_version": 2
 }
