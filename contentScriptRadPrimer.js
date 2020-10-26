@@ -1,8 +1,8 @@
 'use strict';
 
-function createButton(onclick){
+function createButton(text, onclick){
 	const button = document.createElement('button');
-	button.innerText = 'Add to Anki';
+	button.innerText = text;
 	button.onclick = onclick;
 	return button;
 }
@@ -28,13 +28,19 @@ function toDataURL(url, callback) {
 	xhr.send();
 }
 
+function getImage(container) {
+	return container.querySelector('.large-image>.image');
+}
+
+const div = document.createElement('div');
 const container = document.getElementById('container');
-container.prepend(createButton(() => {
+container.prepend(div);
+div.append(createButton('Add to Anki', () => {
 	let diagnosis = container.querySelector('.question-answer.correct .answer-response').firstChild.textContent
 	const msg = {
 		diagnosis: diagnosis,
 	};
-	const image = container.querySelector('.large-image>.image');
+	const image = getImage(container);
 	if (image) {
 		const image_id = image.id;
 		msg.filename = image_id + '.jpg';
@@ -46,3 +52,14 @@ container.prepend(createButton(() => {
 		sendMessage(msg);
 	}
 }));
+div.append(createButton('Get image', () => {
+	const image = getImage(container);
+	if (image) {
+		const img = document.createElement('img');
+		img.src = 'https://app.radprimer.com/images/' + image.id + '?style=large';
+		img.setAttribute('height', '50px');
+		div.append(img);
+
+	}
+}));
+
