@@ -52,14 +52,12 @@ div.append(createButton('Add to Anki', () => {
 		sendMessage(msg);
 	}
 }));
+const img = document.createElement('img');
+img.setAttribute('height', '50px');
 div.append(createButton('Get image', () => {
 	const image = getImage(container);
 	if (image) {
-		const img = document.createElement('img');
 		img.src = 'https://app.radprimer.com/images/' + image.id + '?style=large';
-		img.setAttribute('height', '50px');
-		div.append(img);
-
 	}
 }));
-
+div.append(img);
