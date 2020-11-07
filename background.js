@@ -35,7 +35,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 					const storeMediaParams = {filename: message.filename};
 					if (message.image_url) storeMediaParams.url = message.image_url;
 					else if (message.image_data) storeMediaParams.data = message.image_data;
-					addCardAction.params.note.fields[options.image] = '<img src="' + message.filename + '">';
+					addCardAction.params.note.fields[options.image] = '<div><img src="' + message.filename + '"></div>';
 					data = {
 						action:'multi',
 						params: {
@@ -44,20 +44,64 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 									action: 'storeMediaFile',
 									params: storeMediaParams,
 								},
-								addCardAction,
 							]
 						}
-					};
-				} else data = addCardAction;
-				data.version = 6;
-				const xhr = new XMLHttpRequest();
-				xhr.onreadystatechange = () => {
-					if(xhr.readyState === 4) {
-						sendResponse(xhr.status === 200 ? JSON.parse(xhr.response) : {error: 'Status: ' + xhr.status});
+					};					
+					if (message.noteId) {
+						data.params.actions.push({
+							action:'notesInfo',
+							params: {
+								notes: [message.noteId]
+							}
+						});
+					} else {
+						data.params.actions.push(addCardAction);
 					}
+				} else data = addCardAction;
+
+				const xhr_func = (data, callback) => {
+					const xhr = new XMLHttpRequest();
+					xhr.onreadystatechange = () => {
+						if (xhr.readyState === 4) {
+							if (xhr.status === 200) {
+								callback(JSON.parse(xhr.response));
+							} else {
+								sendResponse({error: 'Status: ' + xhr.status});
+							}
+						}
+					};
+					xhr.open('POST', options.host, true);
+					data.version = 6;
+					xhr.send(JSON.stringify(data));
 				};
-				xhr.open('POST', options.host, true);
-				xhr.send(JSON.stringify(data));
+
+				if (message.noteId) {
+					xhr_func(data, response => {
+						if (response.error || !Array.isArray(response.result[1])) {
+							sendResponse(response);
+						} else {
+							const oldField = response.result[1][0].fields[options.image].value;
+							console.log('Old field:');
+							console.log(oldField);
+							const newField = oldField + addCardAction.params.note.fields[options.image];
+							console.log('New field: ');
+							console.log(newField);
+							xhr_func({
+								action:'updateNoteFields',
+								params: {
+									note: {
+										id: message.noteId,
+							            fields: {
+							                [options.image]: newField,
+							            },
+							        }
+								}
+							}, sendResponse);
+						}
+					});
+				} else {
+					xhr_func(data, sendResponse);
+				}
 			} else {
 				sendResponse({error: 'Permissions not granted for host: ' + options.host});
 			}

@@ -32,10 +32,31 @@ function getImage(container) {
 	return container.querySelector('.large-image>.image');
 }
 
-const div = document.createElement('div');
 const container = document.getElementById('container');
+
+const addToAnki = noteId => {
+	const msg = {};
+	if (noteId) {
+		msg.noteId = noteId;
+	} else {
+		msg.diagnosis = container.querySelector('.question-answer.correct .answer-response').firstChild.textContent
+	}
+	const image = container.querySelector('.large-image>.image');
+	if (image) {
+		const image_id = image.id;
+		msg.filename = image_id + '.jpg';
+		toDataURL('https://app.radprimer.com/images/' + image_id + '?style=large', data => {
+			msg.image_data = data;
+			sendMessage(msg);
+		});
+	} else if (msg.diagnosis) {
+		sendMessage(msg);
+	}
+}
+
+const div = document.createElement('div');
 container.prepend(div);
-div.append(createButton('Add to Anki', () => {
+div.appendChild(createButton('Add to Anki', () => {
 	let diagnosis = container.querySelector('.question-answer.correct .answer-response').firstChild.textContent
 	const msg = {
 		diagnosis: diagnosis,
@@ -54,10 +75,34 @@ div.append(createButton('Add to Anki', () => {
 }));
 const img = document.createElement('img');
 img.setAttribute('height', '50px');
-div.append(createButton('Get image', () => {
+div.appendChild(createButton('Get image', () => {
 	const image = getImage(container);
 	if (image) {
 		img.src = 'https://app.radprimer.com/images/' + image.id + '?style=large';
 	}
 }));
-div.append(img);
+div.appendChild(img);
+const form = document.createElement('form');
+div.appendChild(form);
+
+form.id = 'transfer_form';
+div.appendChild(form);
+const nid_input = document.createElement('input');
+form.appendChild(nid_input);
+nid_input.setAttribute("type", "number");
+nid_input.setAttribute("placeholder", "Note ID");
+nid_input.required = true;
+nid_input.setAttribute("name", "nid");
+
+
+const submit_button = document.createElement("input");
+form.appendChild(submit_button);
+
+submit_button.setAttribute("type", "submit");
+submit_button.value = "Transfer image";
+
+form.onsubmit = (event) => {
+	event.preventDefault();
+	addToAnki(parseInt(nid_input.value,10));
+};
+
