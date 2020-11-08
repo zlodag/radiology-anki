@@ -31,7 +31,16 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 				};
 				if (message.diagnosis) addCardAction.params.note.fields[options.diagnosis] = message.diagnosis;
 				if (message.link) addCardAction.params.note.fields[options.link] = message.link;
-				if (message.filename) {
+				if (message.images) {
+					data = {
+						action:'multi',
+						params: {
+							actions: message.images.map(image => ({action: 'storeMediaFile', params: image}))
+						}
+					};
+					addCardAction.params.note.fields[options.image] = message.images.map(image => '<div><img src="' + image.filename + '"></div>').join('');
+					data.params.actions.push(addCardAction);
+				} else if (message.filename) {
 					const storeMediaParams = {filename: message.filename};
 					if (message.image_url) storeMediaParams.url = message.image_url;
 					else if (message.image_data) storeMediaParams.data = message.image_data;

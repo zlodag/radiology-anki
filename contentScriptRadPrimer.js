@@ -73,6 +73,29 @@ div.appendChild(createButton('Add to Anki', () => {
 		sendMessage(msg);
 	}
 }));
+div.appendChild(createButton('Add all', () => {
+	const msg = {
+		diagnosis: container.querySelector('.question-answer.correct .answer-response').firstChild.textContent,
+	};
+	const imageIds = Array.from(container.querySelectorAll('.thumbs a.img'), link => link.rel);
+	Promise.all(imageIds.map(id => 
+		fetch('https://app.radprimer.com/images/' + id + '?style=large')
+		.then(response => response.blob())
+		.then(data => new Promise((resolve, reject) => {
+			const reader = new FileReader();
+			reader.onloadend = () => {
+				resolve({
+					filename: id + '.jpg',
+					data: reader.result.split(',')[1],
+				});
+			};
+			reader.readAsDataURL(data);
+		}))
+	)).then(images => {
+		msg.images = images;
+		sendMessage(msg);
+	});
+}));
 const img = document.createElement('img');
 img.setAttribute('height', '50px');
 div.appendChild(createButton('Get image', () => {
