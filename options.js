@@ -6,6 +6,7 @@ const default_field_note = 'Basic';
 const default_field_diagnosis = 'Diagnosis';
 const default_field_link = 'Link';
 const default_field_image = 'Image';
+const default_field_extra = 'Extra';
 
 function show_status(msg) {
 	const status = document.getElementById('status');
@@ -27,6 +28,7 @@ function save_options() {
 		diagnosis: document.getElementById('field_diagnosis').value,
 		link: document.getElementById('field_link').value,
 		image: document.getElementById('field_image').value,
+		extra: document.getElementById('field_extra').value,
 	}, function() {
 		show_status('Options saved');
 	});
@@ -47,6 +49,7 @@ function restore_options() {
 		diagnosis: default_field_diagnosis,
 		link: default_field_link,
 		image: default_field_image,
+		extra: default_field_extra,
 	}, function(items) {
 		document.getElementById('field_host').value = items.host;
 		document.getElementById('field_deck').value = items.deck;
@@ -54,6 +57,7 @@ function restore_options() {
 		document.getElementById('field_diagnosis').value = items.diagnosis;
 		document.getElementById('field_link').value = items.link;
 		document.getElementById('field_image').value = items.image;
+		document.getElementById('field_extra').value = items.extra;
 	});
 }
 

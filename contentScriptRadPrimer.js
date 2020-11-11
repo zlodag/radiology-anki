@@ -73,10 +73,26 @@ div.appendChild(createButton('Add to Anki', () => {
 		sendMessage(msg);
 	}
 }));
-div.appendChild(createButton('Add all', () => {
+
+const addAll = extra => {
 	const msg = {
 		diagnosis: container.querySelector('.question-answer.correct .answer-response').firstChild.textContent,
 	};
+	if (extra) {
+		const extraNode = document.querySelector('.teaching-point').cloneNode(true);
+		extraNode.querySelectorAll('img').forEach(imgNode => imgNode.remove());
+		const justifications = document.querySelectorAll('.justification');
+		if (justifications.length) {
+			const ul = document.createElement('ul');
+			extraNode.append(ul);
+			justifications.forEach(justification => {
+				let li = document.createElement('li');
+				li.innerText = justification.lastChild.wholeText;
+				ul.append(li);
+			});
+		}
+		msg.extra = extraNode.innerHTML;
+	}
 	const imageIds = Array.from(container.querySelectorAll('.thumbs a.img'), link => link.rel);
 	Promise.all(imageIds.map(id => 
 		fetch('https://app.radprimer.com/images/' + id + '?style=large')
@@ -95,7 +111,10 @@ div.appendChild(createButton('Add all', () => {
 		msg.images = images;
 		sendMessage(msg);
 	});
-}));
+};
+
+div.appendChild(createButton('Add all', () => addAll(false)));
+div.appendChild(createButton('Add all + extra', () => addAll(true)));
 const img = document.createElement('img');
 img.setAttribute('height', '50px');
 div.appendChild(createButton('Get image', () => {

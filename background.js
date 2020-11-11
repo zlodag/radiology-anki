@@ -6,6 +6,7 @@ const default_field_note = 'Basic';
 const default_field_diagnosis = 'Diagnosis';
 const default_field_link = 'Link';
 const default_field_image = 'Image';
+const default_field_extra = 'Extra';
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 	chrome.storage.local.get({
@@ -15,6 +16,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 		diagnosis: default_field_diagnosis,
 		link: default_field_link,
 		image: default_field_image,
+		extra: default_field_extra,
 	}, options => {
 		chrome.permissions.request({origins: [options.host]}, granted => {
 			if (granted) {
@@ -39,6 +41,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 						}
 					};
 					addCardAction.params.note.fields[options.image] = message.images.map(image => '<div><img src="' + image.filename + '"></div>').join('');
+					if (message.extra) addCardAction.params.note.fields[options.extra] = message.extra;
 					data.params.actions.push(addCardAction);
 				} else if (message.filename) {
 					const storeMediaParams = {filename: message.filename};
