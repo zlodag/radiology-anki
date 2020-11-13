@@ -81,14 +81,22 @@ const addAll = extra => {
 	if (extra) {
 		const extraNode = document.querySelector('.teaching-point').cloneNode(true);
 		extraNode.querySelectorAll('img').forEach(imgNode => imgNode.remove());
-		const justifications = document.querySelectorAll('.justification');
-		if (justifications.length) {
-			const ul = document.createElement('ul');
-			extraNode.append(ul);
-			justifications.forEach(justification => {
-				let li = document.createElement('li');
-				li.innerText = justification.lastChild.wholeText;
-				ul.append(li);
+		const answers = Array.from(document.querySelectorAll('.justification'), node => ({
+			title: node.previousSibling.textContent,
+			explanation: node.lastChild.wholeText,
+			correct: node.parentNode.parentNode.parentNode.classList.contains('correct') ? 1 : node.parentNode.parentNode.parentNode.classList.contains('almost') ? 2 : 3,
+		}));
+		if (answers.length) {
+			answers.sort((a, b) => a.correct - b.correct);
+			const dl = document.createElement('dl');
+			extraNode.append(dl);
+			answers.forEach(answer => {
+				let dt = document.createElement('dt');
+				dt.innerText = (answer.correct === 1 ? '✓' : answer.correct === 2 ? '◒' : '✗') + ' ' + answer.title;
+				dl.append(dt);
+				let dd = document.createElement('dd');
+				dd.innerText = answer.explanation;
+				dl.append(dd);
 			});
 		}
 		msg.extra = extraNode.innerHTML;
