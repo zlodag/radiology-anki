@@ -56,6 +56,9 @@ const addToAnki = noteId => {
 
 const div = document.createElement('div');
 container.prepend(div);
+const progress = document.createElement('progress');
+progress.style.display = 'none';
+
 div.appendChild(createButton('Add to Anki', () => {
 	let diagnosis = container.querySelector('.question-answer.correct .answer-response').firstChild.textContent
 	const msg = {
@@ -102,8 +105,12 @@ const addAll = extra => {
 		msg.extra = extraNode.innerHTML;
 	}
 	const imageIds = Array.from(container.querySelectorAll('.thumbs a.img'), link => link.rel);
+	progress.value = 0;
+	progress.max = imageIds.length * 2;
+	progress.style.display = 'unset';
 	Promise.all(imageIds.map(id => 
 		fetch('https://app.radprimer.com/images/' + id + '?style=large')
+		.finally(() => progress.value++)
 		.then(response => response.blob())
 		.then(data => new Promise((resolve, reject) => {
 			const reader = new FileReader();
@@ -115,6 +122,7 @@ const addAll = extra => {
 			};
 			reader.readAsDataURL(data);
 		}))
+		.finally(() => progress.value++)
 	)).then(images => {
 		msg.images = images;
 		sendMessage(msg);
@@ -155,4 +163,6 @@ form.onsubmit = (event) => {
 	event.preventDefault();
 	addToAnki(parseInt(nid_input.value,10));
 };
+
+div.appendChild(progress);
 
