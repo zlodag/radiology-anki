@@ -82,6 +82,7 @@ const addAll = extra => {
 		diagnosis: container.querySelector('.question-answer.correct .answer-response').firstChild.textContent,
 	};
 	if (extra) {
+		msg.stem = document.querySelector('.question-text').firstElementChild.lastChild.wholeText;
 		const extraNode = document.querySelector('.teaching-point').cloneNode(true);
 		extraNode.querySelectorAll('img').forEach(imgNode => imgNode.remove());
 		const answers = Array.from(document.querySelectorAll('.justification'), node => ({

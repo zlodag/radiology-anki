@@ -40,7 +40,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 							actions: message.images.map(image => ({action: 'storeMediaFile', params: image}))
 						}
 					};
-					addCardAction.params.note.fields[options.image] = message.images.map(image => '<div><img src="' + image.filename + '"></div>').join('');
+					addCardAction.params.note.fields[options.image] = (message.stem || '') + message.images.map(image => '<div><img src="' + image.filename + '"></div>').join('');
 					if (message.extra) addCardAction.params.note.fields[options.extra] = message.extra;
 					data.params.actions.push(addCardAction);
 				} else if (message.filename) {
