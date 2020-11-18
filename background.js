@@ -7,6 +7,7 @@ const default_field_diagnosis = 'Diagnosis';
 const default_field_link = 'Link';
 const default_field_image = 'Image';
 const default_field_extra = 'Extra';
+const default_close_after_adding = true;
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 	chrome.storage.local.get({
@@ -17,6 +18,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 		link: default_field_link,
 		image: default_field_image,
 		extra: default_field_extra,
+		close_after_adding: default_close_after_adding,
 	}, options => {
 		chrome.permissions.request({origins: [options.host]}, granted => {
 			if (granted) {
@@ -28,6 +30,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 							deckName: options.deck,
 							modelName: options.note,
 							fields: {},
+							options: {closeAfterAdding: options.close_after_adding},
 						}
 					}
 				};

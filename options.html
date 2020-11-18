@@ -2,7 +2,6 @@
 <html>
 <head><title>Options</title></head>
 <body>
-
 <fieldset>
 <legend>Connection options</legend>
 <div>
@@ -10,47 +9,40 @@
   <input type="text" id="field_host"/>
   <button id="restore_default_host">Restore default</button>
 </div>
-
 <div>
   <label for="field_deck">Deck name:</label>
   <input type="text" id="field_deck"/>
 </div>
-
 <div>
   <label for="field_note">Note type:</label>
   <input type="text" id="field_note"/>
 </div>
+<div>
+  <label for="close_after_adding">Close after adding:</label>
+  <input type="checkbox" id="close_after_adding"/>
+</div>
 </fieldset>
-
 <fieldset>
 <legend>Field names</legend>
 <div>
   <label for="field_diagnosis">Diagnosis:</label>
   <input type="text" id="field_diagnosis"/>
 </div>
-
 <div>
   <label for="field_link">Link:</label>
   <input type="text" id="field_link"/>
 </div>
-
 <div>
   <label for="field_image">Image:</label>
   <input type="text" id="field_image"/>
 </div>
-
 <div>
   <label for="field_extra">Extra:</label>
   <input type="text" id="field_extra"/>
 </div>
-
 </fieldset>
-
 <div id="status"></div>
-
 <div><button id="save">Save</button></div>
-
-
 <script src="options.js"></script>
 </body>
 </html>
