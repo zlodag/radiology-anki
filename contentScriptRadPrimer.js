@@ -95,12 +95,22 @@ const addAll = extra => {
 			const dl = document.createElement('dl');
 			extraNode.append(dl);
 			answers.forEach(answer => {
-				let dt = document.createElement('dt');
+				const dt = document.createElement('dt');
 				dt.innerText = (answer.correct === 1 ? '✓' : answer.correct === 2 ? '◒' : '✗') + ' ' + answer.title;
 				dl.append(dt);
-				let dd = document.createElement('dd');
+				const dd = document.createElement('dd');
 				dd.innerText = answer.explanation;
 				dl.append(dd);
+			});
+		}
+		const captions = Array.from(container.querySelectorAll('.thumbs>:first-child a.img>img[data-caption]'), a => a.dataset.caption.replaceAll(/ #[A-Z]{1,2}#/g, ''));
+		if (captions.length) {
+			captions.forEach(caption => {
+				const p = document.createElement('p');
+				const i = document.createElement('i');
+				i.innerText = caption;
+				p.append(i);
+				extraNode.append(p);
 			});
 		}
 		msg.extra = extraNode.innerHTML;
