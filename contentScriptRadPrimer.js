@@ -103,7 +103,12 @@ const addAll = extra => {
 				dl.append(dd);
 			});
 		}
-		const captions = Array.from(container.querySelectorAll('.thumbs>:first-child a.img>img[data-caption]'), a => a.dataset.caption.replaceAll(/#[A-Z]{1,2}#/g, '').replaceAll(/\(, ?/g,'(').replaceAll('()','').replaceAll(/ ([,\.])/g,'$1'));
+		const captions = Array.from(container.querySelectorAll('.thumbs>:first-child a.img>img[data-caption]'), a => a.dataset.caption
+			.replace(/#[A-Z]{1,2}#/g, '')
+			.replaceAll('\(, ', '(')
+			.replaceAll('()','')
+			.replace(/ (,|\.)/g,'$1')
+		);
 		if (captions.length) {
 			captions.forEach(caption => {
 				const p = document.createElement('p');
