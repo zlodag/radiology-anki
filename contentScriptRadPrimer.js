@@ -85,7 +85,7 @@ const addAll = extra => {
 		msg.stem = document.querySelector('.question-text').firstElementChild.lastChild.wholeText;
 		const extraNode = document.querySelector('.teaching-point').cloneNode(true);
 		extraNode.querySelectorAll('img').forEach(imgNode => imgNode.remove());
-		extraNode.childNodes.forEach(child => child.innerText = child.innerText.replace(/\s(,|\.)/g,'$1').replace(/\s\s+/g,' '));
+		extraNode.childNodes.forEach(child => child.textContent = child.textContent.replace(/\s(,|\.)/g,'$1').replace(/\s\s+/g,' '));
 		const answers = Array.from(document.querySelectorAll('.justification'), node => ({
 			title: node.previousSibling.textContent,
 			explanation: node.lastChild.wholeText,
