@@ -76,7 +76,11 @@ div.appendChild(createButton('Add to Anki', () => {
 		sendMessage(msg);
 	}
 }));
-
+const sanitize = str => str
+			.replace(/\([,\s]+/g, '(') // remove commas and whitespace after an open bracket
+			.replaceAll('()','') // remove empty brackets
+			.replace(/\s+([,\.\s])/g,'$1') // remove whitespace before commas, full stops and whitespace
+;
 const addAll = extra => {
 	const msg = {
 		diagnosis: container.querySelector('.question-answer.correct .answer-response').firstChild.textContent,
@@ -85,7 +89,7 @@ const addAll = extra => {
 		msg.stem = document.querySelector('.question-text').firstElementChild.lastChild.wholeText;
 		const extraNode = document.querySelector('.teaching-point').cloneNode(true);
 		extraNode.querySelectorAll('img').forEach(imgNode => imgNode.remove());
-		extraNode.childNodes.forEach(child => child.textContent = child.textContent.replace(/\s(,|\.)/g,'$1').replace(/\s\s+/g,' '));
+		extraNode.childNodes.forEach(child => child.textContent = sanitize(child.textContent));
 		const answers = Array.from(document.querySelectorAll('.justification'), node => ({
 			title: node.previousSibling.textContent,
 			explanation: node.lastChild.wholeText,
@@ -104,12 +108,7 @@ const addAll = extra => {
 				dl.append(dd);
 			});
 		}
-		const captions = Array.from(container.querySelectorAll('.thumbs>:first-child a.img>img[data-caption]'), a => a.dataset.caption
-			.replace(/#[A-Z]{1,2}#/g, '')
-			.replaceAll('\(, ', '(')
-			.replaceAll('()','')
-			.replace(/\s(,|\.)/g,'$1')
-		);
+		const captions = Array.from(container.querySelectorAll('.thumbs>:first-child a.img>img[data-caption]'), a => sanitize(a.dataset.caption.replace(/#[A-Z]{1,2}#/g, '')));
 		if (captions.length) {
 			captions.forEach(caption => {
 				const p = document.createElement('p');
