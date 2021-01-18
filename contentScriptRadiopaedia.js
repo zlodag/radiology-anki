@@ -28,7 +28,7 @@ for (let i = 0; i < grid_items.length; i++) {
 	const grid_item = grid_items[i];
 	grid_item.appendChild(createButton(() => {
 		const msg = getBaseMessage();
-		msg.image_url = grid_item.firstElementChild.firstElementChild.dataset.imageGalleryThumbnailPath;
+		msg.image_url = grid_item.querySelector('[data-image-gallery-thumbnail-path]').dataset.imageGalleryThumbnailPath;
 		msg.filename = msg.image_url.match(/[^/]+$/)[0];
 		sendMessage(msg);
 	}));
