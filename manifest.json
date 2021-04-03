@@ -1,31 +1,28 @@
 {
 	"name": "Radiology to Anki",
-	"version": "1.0",
+	"version": "2.0",
 	"description": "Import radiology content to Anki flashcards using AnkiConnect",
 	"background": {
-		"scripts": ["background.js"],
-		"persistent": false
+		"service_worker": "service_worker.js"
 	},
-	"content_scripts": [
-	  {
-	    "matches": ["https://radiopaedia.org/articles/*"],
-	    "js": ["contentScriptRadiopaedia.js"]
-	  },
-	  {
-	    "matches": ["https://app.radprimer.com/assessment/*"],
-	    "js": ["contentScriptRadPrimer.js"]
-	  }
-	],
+	"content_scripts": [{
+		"matches": ["https://radiopaedia.org/articles/*"],
+		"js": ["contentScriptRadiopaedia.js"]
+	}, {
+		"matches": ["https://app.radprimer.com/assessment/*"],
+		"js": ["contentScriptRadPrimer.js"]
+	}],
 	"options_ui": {
 	  "page": "options.html",
 	  "open_in_tab": false
 	},
 	"permissions": [
-		"http://localhost:8765/",
 		"storage"
 	],
-	"optional_permissions": [
+	"host_permissions": [
+		"http://localhost:8765/",
 		"http://*/"
 	],
-	"manifest_version": 2
+	"manifest_version": 3
 }
+
