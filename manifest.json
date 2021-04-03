@@ -16,8 +16,18 @@
 	  "page": "options.html",
 	  "open_in_tab": false
 	},
+	"commands": {
+		"toggle-caption": {
+			"suggested_key": {
+				"default": "Alt+C",
+				"mac": "Alt+C"
+			},
+			"description": "Toggle RadPrimer caption"
+		}
+	},
 	"permissions": [
-		"storage"
+		"storage",
+		"tabs"
 	],
 	"host_permissions": [
 		"http://localhost:8765/",

@@ -9,6 +9,12 @@ const default_field_image = 'Image';
 const default_field_extra = 'Extra';
 const default_close_after_adding = true;
 
+chrome.commands.onCommand.addListener((command, tab) => {
+	if (command === 'toggle-caption') {
+		chrome.tabs.sendMessage(tab.id, {command});
+	}
+});
+
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 	chrome.storage.local.get({
 		host: default_field_host,

@@ -54,6 +54,14 @@ const addToAnki = noteId => {
 	}
 }
 
+chrome.runtime.onMessage.addListener(message => {
+	const { command } = message;
+	if (command === 'toggle-caption') {
+		const captionToggles = document.getElementsByClassName('caption-toggle');
+		if (captionToggles.length === 1) {captionToggles[0].click();}
+	}
+});
+
 const div = document.createElement('div');
 container.prepend(div);
 const progress = document.createElement('progress');
